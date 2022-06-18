@@ -30,8 +30,13 @@ public class Main {
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfCols; j++) {
                 System.out.print("Enter element on index (" + i + ", " + j + "): ");
-                matrix[i][j] = scan.nextInt();
-                //TODO: check if the entered number is an integer one
+                int currElem = scan.nextInt();
+                while(currElem != (int) currElem){
+                    System.out.println("You must enter an integer");
+                    System.out.print("Enter element on index (" + i + ", " + j + "): ");
+                    currElem = scan.nextInt();
+                }
+                matrix[i][j] = currElem;
             }
         }
         return matrix;
@@ -66,10 +71,75 @@ public class Main {
         }
     }
 
+    public static int[][] sumTwoMatrices(){
+        int[][] matrix1 = enterMatrix();
+        int[][] matrix2 = enterMatrix();
+        int rowsMatrix1 = matrix1.length;
+        int colsMatrix1 = matrix1[0].length;
+        int rowsMatrix2 = matrix2.length;
+        int colsMatrix2 = matrix2[0].length;
+        int[][] resultMatrix = new int[rowsMatrix1][colsMatrix1];
+        if(rowsMatrix1 == rowsMatrix2 && colsMatrix1 == colsMatrix2){
+            for (int i = 0; i < rowsMatrix1; i++) {
+                for (int j = 0; j < colsMatrix1; j++) {
+                    resultMatrix[i][j] = matrix1[i][j] + matrix2[i][j];
+                }
+            }
+        } else{
+            System.out.println("Invalid matrices' size. The size of the matrices must be equal.");
+            return sumTwoMatrices();
+        }
+        return resultMatrix;
+    }
+
+    public static int[][] subtractionTwoMatrices(){
+        int[][] matrix1 = enterMatrix();
+        int[][] matrix2 = enterMatrix();
+        int rowsMatrix1 = matrix1.length;
+        int colsMatrix1 = matrix1[0].length;
+        int rowsMatrix2 = matrix2.length;
+        int colsMatrix2 = matrix2[0].length;
+        int[][] resultMatrix = new int[rowsMatrix1][colsMatrix1];
+        if(rowsMatrix1 == rowsMatrix2 && colsMatrix1 == colsMatrix2){
+            for (int i = 0; i < rowsMatrix1; i++) {
+                for (int j = 0; j < colsMatrix1; j++) {
+                    resultMatrix[i][j] = matrix1[i][j] - matrix2[i][j];
+                }
+            }
+        } else{
+            System.out.println("Invalid matrices' size. The size of the matrices must be equal.");
+            return subtractionTwoMatrices();
+        }
+        return resultMatrix;
+    }
+
 
     public static void main(String[] args) {
-        int[][] matrix = enterMatrix();
-        printMatrix(matrix);
+        Scanner scan = new Scanner(System.in);
+        System.out.println("-> 1.Sum two matrices");
+        System.out.println("-> 2.Subtraction of two matrices");
+        System.out.println("-> 3.Multiplication of two matrices");
+        System.out.println("-> 4.Find a determinant of a matrix");
+        System.out.println("-> 5.Inverse a matrix");
+        System.out.print("Choose an option from the menu (1-5) - ");
+        int choice = scan.nextInt();
+
+        while(choice >= 6 || choice <= 0){
+            System.out.println("Invalid choice!");
+            System.out.print("Choose an option from the menu (1-5) - ");
+            choice = scan.nextInt();
+        }
+        switch (choice){
+            case 1:
+                int[][] sumMatrix = sumTwoMatrices(); printMatrix(sumMatrix); break;
+            case 2:
+                int[][] subsMatrix = subtractionTwoMatrices(); printMatrix(subsMatrix);break;
+            case 3: break;
+            case 4: break;
+            case 5: break;
+        }
+
+
 
     }
 }
