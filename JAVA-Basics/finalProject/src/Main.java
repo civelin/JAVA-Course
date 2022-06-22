@@ -114,7 +114,7 @@ public class Main {
     }
 
 
-    public static int multiplyCell(int[][]matrix1, int[][]matrix2, int row, int col){
+    public static int multiplyCell(int[][] matrix1, int[][] matrix2, int row, int col) {
         int cellResult = 0;
         for (int i = 0; i < matrix2.length; i++) {
             cellResult += matrix1[row][i] * matrix2[i][col];
@@ -122,43 +122,29 @@ public class Main {
         return cellResult;
     }
 
-    public static int[][] multiplyTwoMatrices(){
+    public static int[][] multiplyTwoMatrices() {
         int[][] matrix1 = enterMatrix();
         int[][] matrix2 = enterMatrix();
         int rowsMatrix1 = matrix1.length;
         int colsMatrix2 = matrix2[0].length;
-        while(rowsMatrix1 != colsMatrix2){
-            System.out.println("Invalid matrices' sizes. The number of rows of first matrix must be equal to number of columns of second matrix.");
-            matrix1 = enterMatrix();
-            matrix2 = enterMatrix();
-            rowsMatrix1 = matrix1.length;
-            colsMatrix2 = matrix2[0].length;
-        }
-        int[][] resultMatrix = new int[rowsMatrix1][colsMatrix2];
-
-        for(int i = 0; i < resultMatrix.length; i++){
-            for (int j = 0; j < resultMatrix[i].length; j++) {
-                resultMatrix[i][j] = multiplyCell(matrix1, matrix2, i, j);
+        if (rowsMatrix1 == colsMatrix2) {
+            int[][] resultMatrix = new int[rowsMatrix1][colsMatrix2];
+            for (int i = 0; i < resultMatrix.length; i++) {
+                for (int j = 0; j < resultMatrix[i].length; j++) {
+                    resultMatrix[i][j] = multiplyCell(matrix1, matrix2, i, j);
+                }
             }
+            return resultMatrix;
+        } else {
+            System.out.println("Invalid matrices' sizes. The number of rows of first matrix must be equal to number of columns of second matrix.");
+            return multiplyTwoMatrices();
         }
-        return resultMatrix;
     }
 
-    public static void menu() {
+    public static void chooseFromMenu() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("-> 1.Sum two matrices");
-        System.out.println("-> 2.Subtraction of two matrices");
-        System.out.println("-> 3.Multiplication of two matrices");
-        System.out.println("-> 4.Find a determinant of a matrix");
-        System.out.println("-> 5.Inverse a matrix");
-        System.out.println("-> Enter 0 to return");
-        System.out.print("Choose an option from the menu (1-5) - ");
         int choice = scan.nextInt();
-        while (choice > 6 || choice <= 0) {
-            System.out.println("Invalid choice!");
-            System.out.print("Choose an option from the menu (1-6) - ");
-            choice = scan.nextInt();
-        }
+
         switch (choice) {
             case 0:
                 return;
@@ -178,12 +164,24 @@ public class Main {
                 break;
             case 5:
                 break;
+            default:
+                System.out.println("Invalid choice!");
+                System.out.print("Choose an option from the menu (1-5) - ");
+                chooseFromMenu();
+                break;
         }
     }
 
 
     public static void main(String[] args) {
-        menu();
+        System.out.println("-> 1.Sum two matrices");
+        System.out.println("-> 2.Subtraction of two matrices");
+        System.out.println("-> 3.Multiplication of two matrices");
+        System.out.println("-> 4.Find a determinant of a matrix");
+        System.out.println("-> 5.Inverse a matrix");
+        System.out.println("-> Enter 0 to return");
+        System.out.print("Choose an option from the menu (1-5) - ");
+        chooseFromMenu();
 
     }
 }
