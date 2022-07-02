@@ -5,40 +5,44 @@ public class Main {
     public static int enterNumberOfRows() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter the number of rows of the matrix: ");
-        int rows = validateMyInput(scan);
+        int rows = validateMatrixSizeInput(scan);
         return rows;
     }
+
     public static int enterNumberOfCols() {
         Scanner scan = new Scanner(System.in);
-        int cols = 0;
-        while (cols <= 0) {
-            System.out.print("Enter the number of columns of the matrix: ");
-            cols = scan.nextInt();
-        }
+        System.out.print("Enter the number of columns of the matrix: ");
+        int cols = validateMatrixSizeInput(scan);
         return cols;
     }
-    private static int validateMyInput(Scanner scan) {
-//        int result = 0;
-//        boolean isFinalResultFound = false;
-        while (true){
+
+    private static int validateMatrixSizeInput(Scanner scan) {
+        while (true) {
             try {
                 int input = Integer.parseInt(scan.nextLine());
-                if (input <= 0){
-                    System.out.println("Invalid input. The number of rows must be a positive integer number");
-                    System.out.print("Enter the number of rows of the matrix: ");
+                if (input <= 0) {
+                    System.out.println("Invalid input. The size must be a positive integer number");
                     continue;
                 }
                 return input;
-            }catch (Exception e){
-                System.out.println("Invalid input. The number of rows must be a positive integer number");
-                System.out.print("Enter the number of rows of the matrix: ");
+            } catch (Exception e) {
+                System.out.println("Invalid input. The size must be a positive integer number");
                 continue;
             }
-//            isFinalResultFound = true;
         }
-//        return result;
     }
 
+    private static int validateMatrixElements(Scanner scan) {
+        while (true) {
+            try {
+                int input = Integer.parseInt(scan.nextLine());
+                return input;
+            } catch (Exception e) {
+                System.out.println("Invalid input. The element must be a integer number");
+                continue;
+            }
+        }
+    }
 
 
     public static int[][] enterMatrix() {
@@ -49,13 +53,7 @@ public class Main {
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfCols; j++) {
                 System.out.print("Enter integer on index (" + i + ", " + j + "): ");
-                double currElem = scan.nextDouble();
-                while (currElem != (int) currElem) {
-                    System.out.println("You must enter an integer");
-                    System.out.print("Enter integer on index (" + i + ", " + j + "): ");
-                    currElem = scan.nextDouble();
-                }
-                matrix[i][j] = (int) currElem;
+                matrix[i][j] = validateMatrixElements(scan);
             }
         }
         return matrix;
@@ -99,15 +97,15 @@ public class Main {
         int rowsMatrix2 = matrix2.length;
         int colsMatrix2 = matrix2[0].length;
         int[][] resultMatrix = new int[rowsMatrix1][colsMatrix1];
-        if (rowsMatrix1 == rowsMatrix2 && colsMatrix1 == colsMatrix2) {
+        if (rowsMatrix1 != rowsMatrix2 || colsMatrix1 != colsMatrix2) {
+            System.out.println("Invalid matrices' size. The size of the matrices must be equal.");
+            return sumTwoMatrices();
+        } else {
             for (int i = 0; i < rowsMatrix1; i++) {
                 for (int j = 0; j < colsMatrix1; j++) {
                     resultMatrix[i][j] = matrix1[i][j] + matrix2[i][j];
                 }
             }
-        } else {
-            System.out.println("Invalid matrices' size. The size of the matrices must be equal.");
-            return sumTwoMatrices();
         }
         return resultMatrix;
     }
@@ -177,8 +175,8 @@ public class Main {
                 printMatrix(subsMatrix);
                 break;
             case 3:
-                int[][] multiplicatedMatrix = multiplyTwoMatrices();
-                printMatrix(multiplicatedMatrix);
+                int[][] resultMatrix = multiplyTwoMatrices();
+                printMatrix(resultMatrix);
                 break;
             case 4:
                 break;
@@ -194,12 +192,12 @@ public class Main {
 
 
     public static void main(String[] args) {
-        System.out.println("-> 1.Sum two matrices");
-        System.out.println("-> 2.Subtraction of two matrices");
-        System.out.println("-> 3.Multiplication of two matrices");
-        System.out.println("-> 4.Find a determinant of a matrix");
-        System.out.println("-> 5.Inverse a matrix");
-        System.out.println("-> Enter 0 to return");
+        System.out.println("---> 1.Sum two matrices");
+        System.out.println("---> 2.Subtraction of two matrices");
+        System.out.println("---> 3.Multiplication of two matrices");
+        System.out.println("---> 4.Find a determinant of a matrix");
+        System.out.println("---> 5.Inverse a matrix");
+        System.out.println("---> Enter 0 to return");
         System.out.print("Choose an option from the menu (1-5) - ");
         chooseFromMenu();
 
