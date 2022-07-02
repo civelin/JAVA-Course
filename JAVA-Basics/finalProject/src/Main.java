@@ -4,14 +4,10 @@ public class Main {
 
     public static int enterNumberOfRows() {
         Scanner scan = new Scanner(System.in);
-        int rows = 0;
-        while (rows <= 0) {
-            System.out.print("Enter the number of rows of the matrix: ");
-            rows = scan.nextInt();
-        }
+        System.out.print("Enter the number of rows of the matrix: ");
+        int rows = validateMyInput(scan);
         return rows;
     }
-
     public static int enterNumberOfCols() {
         Scanner scan = new Scanner(System.in);
         int cols = 0;
@@ -21,6 +17,29 @@ public class Main {
         }
         return cols;
     }
+    private static int validateMyInput(Scanner scan) {
+//        int result = 0;
+//        boolean isFinalResultFound = false;
+        while (true){
+            try {
+                int input = Integer.parseInt(scan.nextLine());
+                if (input <= 0){
+                    System.out.println("Invalid input. The number of rows must be a positive integer number");
+                    System.out.print("Enter the number of rows of the matrix: ");
+                    continue;
+                }
+                return input;
+            }catch (Exception e){
+                System.out.println("Invalid input. The number of rows must be a positive integer number");
+                System.out.print("Enter the number of rows of the matrix: ");
+                continue;
+            }
+//            isFinalResultFound = true;
+        }
+//        return result;
+    }
+
+
 
     public static int[][] enterMatrix() {
         Scanner scan = new Scanner(System.in);
@@ -69,6 +88,7 @@ public class Main {
             }
             System.out.println();
         }
+
     }
 
     public static int[][] sumTwoMatrices() {
@@ -184,4 +204,5 @@ public class Main {
         chooseFromMenu();
 
     }
+
 }
