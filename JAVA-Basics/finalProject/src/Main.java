@@ -86,7 +86,6 @@ public class Main {
             }
             System.out.println();
         }
-
     }
 
     public static int[][] sumTwoMatrices() {
@@ -159,14 +158,14 @@ public class Main {
         }
     }
 
-    public static int[][] findCofactorMatrix(int matrix[][], int col) {
+    public static int[][] findCofactorMatrix(int[][] matrix, int row, int col) {
         int length = matrix.length;
         int[][] newMatrix = new int[length - 1][length - 1];
         int newMatrixCurrRow = 0;
         int newMatrixCurrCol = 0;
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                if (i != 0 && j != col) {
+                if (i != row && j != col) {
                     newMatrix[newMatrixCurrRow][newMatrixCurrCol] = matrix[i][j];
                     newMatrixCurrCol++;
                 }
@@ -179,7 +178,7 @@ public class Main {
         return newMatrix;
     }
 
-    public static int findDeterminant(int matrix[][]) {
+    public static int findDeterminant(int[][] matrix) {
         int det = 0;
         int length = matrix.length;
         if (length == 1) {
@@ -188,11 +187,48 @@ public class Main {
         }
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                int[][] cofactorMatrix = findCofactorMatrix(matrix, j);
+                int[][] cofactorMatrix = findCofactorMatrix(matrix, 0, j);
                 det += Math.pow(-1, (i + j)) * matrix[i][j] * findDeterminant(cofactorMatrix);
             }
         }
         return det;
+    }
+
+    public static int[][] findTransposeMatrix(int[][] matrix) {
+        int length = matrix.length;
+        int[][] transposeMatrix = new int[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                transposeMatrix[i][j] = matrix[j][i];
+            }
+        }
+        return transposeMatrix;
+    }
+
+    public static double[][] findInverseMatrix() {
+        int[][] matrix = enterMatrix();
+        if (matrix.length == matrix[0].length) {
+            int det = findDeterminant(matrix);
+            if (det == 0) {
+                System.out.println("The determinant is equal to 0. The matrix has no equal matrix");
+                System.out.println("Enter another matrix.");
+                return findInverseMatrix();
+            } else {
+                double[][] inverseMatrix = new double[matrix.length][matrix[0].length];
+                for (int i = 0; i < matrix.length; i++) {
+                    for (int j = 0; j < matrix[0].length; j++) {
+                        int[][] transposeMatrix = findTransposeMatrix(matrix);
+                        int[][] cofactorMatrix = findCofactorMatrix(transposeMatrix, i, j);
+                        int cofactorMatrixDet = findDeterminant(cofactorMatrix);
+                        inverseMatrix[i][j] = cofactorMatrixDet * Math.pow(-1, (i + j)) * 1 / det;
+                    }
+                }
+                return inverseMatrix;
+            }
+        } else {
+            System.out.println("Invalid matrices' size. The size of the matrices must be equal.");
+            return findInverseMatrix();
+        }
     }
 
     public static void chooseFromMenu() {
@@ -228,6 +264,12 @@ public class Main {
                 System.out.println("Determinant of the entered matrix is " + determinant);
                 break;
             case 5:
+                double[][] inverseMatrix = findInverseMatrix();
+                for (int i = 0; i < inverseMatrix.length; i++) {
+                    for (int j = 0; j < inverseMatrix[0].length; j++) {
+                        System.out.println(inverseMatrix[i][j]);
+                    }
+                }
                 break;
             default:
                 System.out.println("Invalid choice!");
