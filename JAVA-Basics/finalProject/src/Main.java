@@ -159,6 +159,42 @@ public class Main {
         }
     }
 
+    public static int[][] findCofactorMatrix(int matrix[][], int col) {
+        int length = matrix.length;
+        int[][] newMatrix = new int[length - 1][length - 1];
+        int newMatrixCurrRow = 0;
+        int newMatrixCurrCol = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (i != 0 && j != col) {
+                    newMatrix[newMatrixCurrRow][newMatrixCurrCol] = matrix[i][j];
+                    newMatrixCurrCol++;
+                }
+            }
+            if (newMatrixCurrCol == length - 1) {
+                newMatrixCurrCol = 0;
+                newMatrixCurrRow++;
+            }
+        }
+        return newMatrix;
+    }
+
+    public static int findDeterminant(int matrix[][]) {
+        int det = 0;
+        int length = matrix.length;
+        if (length == 1) {
+            det = matrix[0][0];
+            return det;
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                int[][] cofactorMatrix = findCofactorMatrix(matrix, j);
+                det += Math.pow(-1, (i + j)) * matrix[i][j] * findDeterminant(cofactorMatrix);
+            }
+        }
+        return det;
+    }
+
     public static void chooseFromMenu() {
         Scanner scan = new Scanner(System.in);
         int choice = scan.nextInt();
@@ -167,18 +203,29 @@ public class Main {
             case 0:
                 return;
             case 1:
+                System.out.println();
                 int[][] sumMatrix = sumTwoMatrices();
                 printMatrix(sumMatrix);
                 break;
             case 2:
+                System.out.println();
                 int[][] subsMatrix = subtractionTwoMatrices();
                 printMatrix(subsMatrix);
                 break;
             case 3:
+                System.out.println();
                 int[][] resultMatrix = multiplyTwoMatrices();
                 printMatrix(resultMatrix);
                 break;
             case 4:
+                System.out.println();
+                int[][] matrix = enterMatrix();
+                while (matrix.length != matrix[0].length) {
+                    System.out.println("The matrix must be a square one");
+                    matrix = enterMatrix();
+                }
+                int determinant = findDeterminant(matrix);
+                System.out.println("Determinant of the entered matrix is " + determinant);
                 break;
             case 5:
                 break;
