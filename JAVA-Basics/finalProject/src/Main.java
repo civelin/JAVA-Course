@@ -148,8 +148,10 @@ public class Main {
         double[][] matrix1 = enterMatrix();
         double[][] matrix2 = enterMatrix();
         int rowsMatrix1 = matrix1.length;
+        int colMatrix1 = matrix1[0].length;
+        int rolMatrix2 = matrix2.length;
         int colsMatrix2 = matrix2[0].length;
-        if (rowsMatrix1 == colsMatrix2) {
+        if (colMatrix1 == rolMatrix2) {
             double[][] resultMatrix = new double[rowsMatrix1][colsMatrix2];
             for (int i = 0; i < resultMatrix.length; i++) {
                 for (int j = 0; j < resultMatrix[i].length; j++) {
