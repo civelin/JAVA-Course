@@ -103,7 +103,7 @@ public class Main {
         int rowsMatrix1 = matrix1.length;
         int colsMatrix1 = matrix1[0].length;
         double[][] resultMatrix = new double[rowsMatrix1][colsMatrix1];
-        if (haveEqualSizes(matrix1, matrix2)) {
+        if (!haveEqualSizes(matrix1, matrix2)) {
             System.out.println("Invalid matrices' size. The size of the matrices must be equal.");
             return sumTwoMatrices();
         } else {
@@ -160,7 +160,7 @@ public class Main {
             }
             return resultMatrix;
         } else {
-            System.out.println("Invalid matrices' sizes. The number of rows of first matrix must be equal to number of columns of second matrix.");
+            System.out.println("Invalid matrices' sizes. The number of columns of the first matrix must be equal to number of rows of the second matrix.");
             return multiplyTwoMatrices();
         }
     }
